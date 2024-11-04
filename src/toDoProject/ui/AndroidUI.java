@@ -21,10 +21,10 @@ public class AndroidUI {
             Integer choose = Utils.getInt("Choose : ");
             switch (choose){
                 case 1->{
-                    showTasks();
+                    // showTasks();
                 }
                 case 2->{
-                    // addTask();
+                    addTask();
                     }
                 case 3->{
                     // deleteTask();
@@ -41,34 +41,19 @@ public class AndroidUI {
         }
     }
 
-    private static void showTasks() {
-        while(true) {
-            System.out.println("==============================================");
-            showTask();
-            System.out.println("0. Back");
-            System.out.println("==============================================");
-            int anInt = Utils.getInt("Choose menu: ");
+    private static void addTask() {
+        System.out.println("Please Enter Task Info: ");
+        String name = Utils.getStr("Name: ");
+        String description = Utils.getStr("Description: ");
+        System.out.println("TaskStatus:");
+        System.out.println(TaskStatus.getAllValuesAsString());
+        int statusOrder = Utils.getInt("Choose status: ");
+        TaskStatus status = TaskStatus.getValueByOrder(statusOrder);
 
-            if(anInt == 0){
-                return;
-            }
+        Task task = new Task(name,description,status);
 
-            if (anInt <= 0 || anInt > taskService.getCount()) {
-                System.out.println("Wrong menu! Try again !!!");
-                continue;
-            }
-            System.out.println(taskService.getTask(anInt));
-        }
-    }
+        taskService.create(task);
+        System.out.println("Successfully Created");
 
-    private static int showTask(){
-        System.out.println("===== Task Menu =====");
-        Task[] all = taskService.getAllTasks();
-        int count = 1;
-        for (Task task : all) {
-            System.out.println(count + ". " + task.getName());
-            count++;
-        }
-        return count;
     }
 }
